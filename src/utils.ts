@@ -1,4 +1,9 @@
-import * as React from 'react'
+import { useState, useRef, useEffect } from 'react'
+
+const isDefaultValueCallback = <T>(
+  defaultValue: unknown,
+): defaultValue is () => T =>
+  typeof defaultValue === 'function' && typeof defaultValue() !== "undefined"
 
 /**
  *
@@ -7,22 +12,22 @@ import * as React from 'react'
  * @param {{serialize: Function, deserialize: Function}} options The serialize and deserialize functions to use (defaults to JSON.stringify and JSON.parse respectively)
  */
 
-function useLocalStorageState(
-  key,
-  defaultValue = '',
-  {serialize = JSON.stringify, deserialize = JSON.parse} = {},
+function useLocalStorageState<T>(
+  key: string,
+  defaultValue: T | (() => T),
+  { serialize = JSON.stringify, deserialize = JSON.parse } = {},
 ) {
-  const [state, setState] = React.useState(() => {
+  const [state, setState] = useState<T>(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
     if (valueInLocalStorage) {
       return deserialize(valueInLocalStorage)
     }
-    return typeof defaultValue === 'function' ? defaultValue() : defaultValue
+    return isDefaultValueCallback(defaultValue) ? defaultValue() : defaultValue
   })
 
-  const prevKeyRef = React.useRef(key)
+  const prevKeyRef = useRef(key)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const prevKey = prevKeyRef.current
     if (prevKey !== key) {
       window.localStorage.removeItem(prevKey)
@@ -31,7 +36,7 @@ function useLocalStorageState(
     window.localStorage.setItem(key, serialize(state))
   }, [key, state, serialize])
 
-  return [state, setState]
+  return [state, setState] as const
 }
 
-export {useLocalStorageState}
+export { useLocalStorageState }

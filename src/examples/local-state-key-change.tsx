@@ -1,12 +1,16 @@
 // useEffect: persistent state
 // flexible localStorage hook - changing the key in localStorage
-// http://localhost:3000/isolated/examples/local-state-key-change.js
+// http://localhost:3000/isolated/examples/local-state-key-change.tsx
 
-import * as React from 'react'
-import {useLocalStorageState} from '../utils'
+import React, { useState } from 'react'
+import { useLocalStorageState } from '../utils'
 
-function Greeting({initialName = ''}) {
-  const [key, setKey] = React.useState('name')
+type GreetingProps = {
+  initialName?: string
+}
+
+function Greeting({ initialName = '' }: GreetingProps) {
+  const [key, setKey] = useState('name')
   const [name, setName] = useLocalStorageState(key, initialName)
 
   function handleClick() {
@@ -19,7 +23,7 @@ function Greeting({initialName = ''}) {
     }
   }
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value)
   }
 
