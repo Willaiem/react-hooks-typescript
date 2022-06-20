@@ -28,14 +28,14 @@ class Tilt extends React.Component<TiltProps> {
       glare: true,
       'max-glare': 0.5,
     }
-    // 💣 Remove the comment when you typed the ref correctly
+    // 💣 Uncomment when you typed the ref correctly
     // VanillaTilt.init(tiltNode, vanillaTiltOptions)
   }
   componentWillUnmount() {
     // 🐨 Check if tiltNode.current is null here as well
     // 💰 (`if (!tiltNode.current) return` will do it!)
 
-    // 💣 Remove the comment when you checked the tiltNode correctly
+    // 💣 Uncomment when you checked the tiltNode correctly
     // this.tiltRef.current.vanillaTilt.destroy()
   }
   render() {
