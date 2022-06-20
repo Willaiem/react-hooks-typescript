@@ -35,7 +35,7 @@ class Tilt extends React.Component<TiltProps> {
     // 🐨 Check if tiltNode.current is null here as well
     // 💰 (`if (!tiltNode.current) return` will do it!)
 
-    // 💣 Uncomment when you checked the tiltNode correctly
+    // 💣 Uncomment when you checked the tiltNode.current correctly
     // this.tiltRef.current.vanillaTilt.destroy()
   }
   render() {
