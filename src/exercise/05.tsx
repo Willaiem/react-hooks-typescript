@@ -1,11 +1,13 @@
 // useRef and useEffect: DOM interaction
-// http://localhost:3000/isolated/exercise/05.js
+// http://localhost:3000/isolated/exercise/05.tsx
 
 import * as React from 'react'
 // eslint-disable-next-line no-unused-vars
 import VanillaTilt from 'vanilla-tilt'
 
-function Tilt({children}) {
+type TiltProps = { children: React.ReactNode }
+
+function Tilt({ children }: TiltProps) {
   // 🐨 create a ref here with React.useRef()
 
   // 🐨 add a `React.useEffect` callback here and use VanillaTilt to make your

@@ -1,9 +1,18 @@
 // Lifting state
-// http://localhost:3000/isolated/exercise/03.js
+// http://localhost:3000/isolated/exercise/03.tsx
 
 import * as React from 'react'
 
-function Name({name, onNameChange}) {
+type NameProps = {
+  name: string
+  onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+type DisplayProps = {
+  name: string
+}
+
+function Name({ name, onNameChange }: NameProps) {
   return (
     <div>
       <label htmlFor="name">Name: </label>
@@ -34,7 +43,7 @@ function FavoriteAnimal() {
 // }
 
 // 💣 remove this component in favor of the new one
-function Display({name}) {
+function Display({ name }: DisplayProps) {
   return <div>{`Hey ${name}, you are great!`}</div>
 }
 

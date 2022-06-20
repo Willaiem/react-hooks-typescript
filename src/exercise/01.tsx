@@ -1,5 +1,5 @@
 // useState: greeting
-// http://localhost:3000/isolated/exercise/01.js
+// http://localhost:3000/isolated/exercise/01.tsx
 
 import * as React from 'react'
 
@@ -7,7 +7,7 @@ function Greeting() {
   // 💣 delete this variable declaration and replace it with a React.useState call
   const name = ''
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     // 🐨 update the name here based on event.target.value
   }
 

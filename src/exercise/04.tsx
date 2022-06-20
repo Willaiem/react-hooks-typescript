@@ -1,5 +1,5 @@
 // useState: tic tac toe
-// http://localhost:3000/isolated/exercise/04.js
+// http://localhost:3000/isolated/exercise/04.tsx
 
 import * as React from 'react'
 
@@ -16,7 +16,7 @@ function Board() {
 
   // This is the function your square click handler will call. `square` should
   // be an index. So if they click the center square, this will be `4`.
-  function selectSquare(square) {
+  function selectSquare(square: unknown) {
     // 🐨 first, if there's already winner or there's already a value at the
     // given square index (like someone clicked a square that's already been
     // clicked), then return early so we don't make any state changes
@@ -38,7 +38,7 @@ function Board() {
     // 💰 `Array(9).fill(null)` will do it!
   }
 
-  function renderSquare(i) {
+  function renderSquare(i: number) {
     return (
       <button className="square" onClick={() => selectSquare(i)}>
         {squares[i]}
@@ -83,21 +83,21 @@ function Game() {
 }
 
 // eslint-disable-next-line no-unused-vars
-function calculateStatus(winner, squares, nextValue) {
+function calculateStatus(winner: unknown, squares: unknown[], nextValue: unknown) {
   return winner
     ? `Winner: ${winner}`
     : squares.every(Boolean)
-    ? `Scratch: Cat's game`
-    : `Next player: ${nextValue}`
+      ? `Scratch: Cat's game`
+      : `Next player: ${nextValue}`
 }
 
 // eslint-disable-next-line no-unused-vars
-function calculateNextValue(squares) {
+function calculateNextValue(squares: unknown[]) {
   return squares.filter(Boolean).length % 2 === 0 ? 'X' : 'O'
 }
 
 // eslint-disable-next-line no-unused-vars
-function calculateWinner(squares) {
+function calculateWinner(squares: unknown[]) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -108,8 +108,7 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ]
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i]
+  for (const [a, b, c] of lines) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a]
     }

@@ -1,9 +1,13 @@
 // useEffect: persistent state
-// http://localhost:3000/isolated/exercise/02.js
+// http://localhost:3000/isolated/exercise/02.tsx
 
 import * as React from 'react'
 
-function Greeting({initialName = ''}) {
+type GreetingProps = {
+  initialName?: string
+}
+
+function Greeting({ initialName = '' }: GreetingProps) {
   // 🐨 initialize the state to the value from localStorage
   // 💰 window.localStorage.getItem('name') ?? initialName
   const [name, setName] = React.useState(initialName)
@@ -12,7 +16,7 @@ function Greeting({initialName = ''}) {
   // The callback should set the `name` in localStorage.
   // 💰 window.localStorage.setItem('name', name)
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value)
   }
   return (
