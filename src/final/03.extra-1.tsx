@@ -1,8 +1,17 @@
 // Lifting state
 // 💯 colocating state
-// http://localhost:3000/isolated/final/03.extra-1.js
+// http://localhost:3000/isolated/final/03.extra-1.tsx
 
 import * as React from 'react'
+
+type FavoriteAnimalProps = {
+  animal: string
+  onAnimalChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+type DisplayProps = {
+  animal: string
+}
 
 function Name() {
   const [name, setName] = React.useState('')
@@ -18,7 +27,7 @@ function Name() {
   )
 }
 
-function FavoriteAnimal({animal, onAnimalChange}) {
+function FavoriteAnimal({ animal, onAnimalChange }: FavoriteAnimalProps) {
   return (
     <div>
       <label htmlFor="animal">Favorite Animal: </label>
@@ -27,7 +36,7 @@ function FavoriteAnimal({animal, onAnimalChange}) {
   )
 }
 
-function Display({animal}) {
+function Display({ animal }: DisplayProps) {
   return <div>{`Your favorite animal is: ${animal}!`}</div>
 }
 

@@ -1,14 +1,22 @@
 // useRef and useEffect: DOM interaction
-// http://localhost:3000/isolated/final/05.js
+// http://localhost:3000/isolated/final/05.tsx
 
 import * as React from 'react'
 import VanillaTilt from 'vanilla-tilt'
 
-function Tilt({children}) {
-  const tiltRef = React.useRef()
+type TiltProps = { children: React.ReactNode }
+
+type VanillaTiltElement = {
+  vanillaTilt: VanillaTilt
+}
+
+function Tilt({ children }: TiltProps) {
+  const tiltRef = React.useRef<HTMLDivElement & VanillaTiltElement>(null)
 
   React.useEffect(() => {
-    const {current: tiltNode} = tiltRef
+    if (!tiltRef.current) return
+
+    const { current: tiltNode } = tiltRef
     const vanillaTiltOptions = {
       max: 25,
       speed: 400,

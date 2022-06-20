@@ -1,6 +1,6 @@
 // useEffect: HTTP requests
-// 💯 use a status
-// http://localhost:3000/isolated/final/06.extra-2.js
+// 💯 store the state in an object
+// http://localhost:3000/isolated/final/06.extra-3.js
 
 import * as React from 'react'
 import {
@@ -9,41 +9,62 @@ import {
   PokemonForm,
   PokemonDataView,
 } from '../pokemon'
+import { PokemonData } from '../types'
 
-function PokemonInfo({pokemonName}) {
-  const [status, setStatus] = React.useState('idle')
-  const [pokemon, setPokemon] = React.useState(null)
-  const [error, setError] = React.useState(null)
+type PokemonInfoProps = {
+  pokemonName: string
+}
+
+type PokemonInfoState = {
+  status: 'idle' | 'pending'
+  pokemon?: null
+  error?: null
+} | {
+  status: 'resolved',
+  pokemon: PokemonData
+} | {
+  status: 'rejected',
+  error: Error
+}
+
+function PokemonInfo({ pokemonName }: PokemonInfoProps) {
+  const [state, setState] = React.useState<PokemonInfoState>({
+    status: 'idle',
+    pokemon: null,
+    error: null,
+  })
+  const { status } = state
 
   React.useEffect(() => {
     if (!pokemonName) {
       return
     }
-    setStatus('pending')
+    setState({ status: 'pending' })
     fetchPokemon(pokemonName).then(
       pokemon => {
-        setPokemon(pokemon)
-        setStatus('resolved')
+        setState({ status: 'resolved', pokemon })
       },
       error => {
-        setError(error)
-        setStatus('rejected')
+        setState({ status: 'rejected', error })
       },
     )
   }, [pokemonName])
 
   if (status === 'idle') {
-    return 'Submit a pokemon'
+    return <>Submit a pokemon</>
   } else if (status === 'pending') {
     return <PokemonInfoFallback name={pokemonName} />
   } else if (status === 'rejected') {
+    const { error } = state
+
     return (
       <div>
         There was an error:{' '}
-        <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
+        <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
       </div>
     )
   } else if (status === 'resolved') {
+    const { pokemon } = state
     return <PokemonDataView pokemon={pokemon} />
   }
 
@@ -53,7 +74,7 @@ function PokemonInfo({pokemonName}) {
 function App() {
   const [pokemonName, setPokemonName] = React.useState('')
 
-  function handleSubmit(newPokemonName) {
+  function handleSubmit(newPokemonName: string) {
     setPokemonName(newPokemonName)
   }
 

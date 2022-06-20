@@ -1,10 +1,14 @@
 // useEffect: persistent state
 // 💯 effect dependencies
-// http://localhost:3000/isolated/final/02.extra-2.js
+// http://localhost:3000/isolated/final/02.extra-2.tsx
 
 import * as React from 'react'
 
-function Greeting({initialName = ''}) {
+type GreetingProps = {
+  initialName?: string
+}
+
+function Greeting({ initialName = '' }: GreetingProps) {
   const [name, setName] = React.useState(
     () => window.localStorage.getItem('name') ?? initialName,
   )
@@ -13,7 +17,7 @@ function Greeting({initialName = ''}) {
     window.localStorage.setItem('name', name)
   }, [name])
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value)
   }
 

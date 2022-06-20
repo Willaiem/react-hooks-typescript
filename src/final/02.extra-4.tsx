@@ -1,17 +1,22 @@
 // useEffect: persistent state
 // 💯 flexible localStorage hook
-// http://localhost:3000/isolated/final/02.extra-4.js
+// http://localhost:3000/isolated/final/02.extra-4.tsx
 
 import * as React from 'react'
 
-function useLocalStorageState(
-  key,
-  defaultValue = '',
+const isDefaultValueCallback = <T,>(
+  defaultValue: unknown,
+): defaultValue is () => T =>
+  typeof defaultValue === 'function' && typeof defaultValue() !== "undefined"
+
+function useLocalStorageState<T>(
+  key: string,
+  defaultValue: T | (() => T),
   // the = {} fixes the error we would get from destructuring when no argument was passed
   // Check https://jacobparis.com/blog/destructure-arguments for a detailed explanation
-  {serialize = JSON.stringify, deserialize = JSON.parse} = {},
+  { serialize = JSON.stringify, deserialize = JSON.parse } = {},
 ) {
-  const [state, setState] = React.useState(() => {
+  const [state, setState] = React.useState<T>(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
     if (valueInLocalStorage) {
       // the try/catch is here in case the localStorage value was set before
@@ -22,7 +27,7 @@ function useLocalStorageState(
         window.localStorage.removeItem(key)
       }
     }
-    return typeof defaultValue === 'function' ? defaultValue() : defaultValue
+    return isDefaultValueCallback(defaultValue) ? defaultValue() : defaultValue
   })
 
   const prevKeyRef = React.useRef(key)
@@ -37,13 +42,17 @@ function useLocalStorageState(
     window.localStorage.setItem(key, serialize(state))
   }, [key, state, serialize])
 
-  return [state, setState]
+  return [state, setState] as const
 }
 
-function Greeting({initialName = ''}) {
+type GreetingProps = {
+  initialName?: string
+}
+
+function Greeting({ initialName = '' }: GreetingProps) {
   const [name, setName] = useLocalStorageState('name', initialName)
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value)
   }
 

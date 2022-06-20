@@ -1,11 +1,11 @@
 // useState: greeting
-// http://localhost:3000/isolated/final/01.js
+// http://localhost:3000/isolated/final/01.tsx
 
 import * as React from 'react'
 
 function Greeting() {
   const [name, setName] = React.useState('')
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value)
   }
   return (

@@ -1,5 +1,6 @@
 // useEffect: HTTP requests
-// http://localhost:3000/isolated/final/06.js
+// 💯 handle errors
+// http://localhost:3000/isolated/final/06.extra-1.tsx
 
 import * as React from 'react'
 import {
@@ -8,20 +9,37 @@ import {
   PokemonForm,
   PokemonDataView,
 } from '../pokemon'
+import { PokemonData } from '../types'
 
-function PokemonInfo({pokemonName}) {
-  const [pokemon, setPokemon] = React.useState(null)
+type PokemonInfoProps = {
+  pokemonName: string
+}
+
+function PokemonInfo({ pokemonName }: PokemonInfoProps) {
+  const [pokemon, setPokemon] = React.useState<PokemonData | null>(null)
+  const [error, setError] = React.useState<Error | null>(null)
 
   React.useEffect(() => {
     if (!pokemonName) {
       return
     }
     setPokemon(null)
-    fetchPokemon(pokemonName).then(pokemon => setPokemon(pokemon))
+    setError(null)
+    fetchPokemon(pokemonName).then(
+      pokemon => setPokemon(pokemon),
+      error => setError(error),
+    )
   }, [pokemonName])
 
-  if (!pokemonName) {
-    return 'Submit a pokemon'
+  if (error) {
+    return (
+      <div role="alert">
+        There was an error:{' '}
+        <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
+      </div>
+    )
+  } else if (!pokemonName) {
+    return <>Submit a pokemon</>
   } else if (!pokemon) {
     return <PokemonInfoFallback name={pokemonName} />
   } else {
@@ -32,7 +50,7 @@ function PokemonInfo({pokemonName}) {
 function App() {
   const [pokemonName, setPokemonName] = React.useState('')
 
-  function handleSubmit(newPokemonName) {
+  function handleSubmit(newPokemonName: string) {
     setPokemonName(newPokemonName)
   }
 

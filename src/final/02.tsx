@@ -1,19 +1,18 @@
 // useEffect: persistent state
-// 💯 lazy state initialization
-// http://localhost:3000/isolated/final/02.extra-1.js
+// http://localhost:3000/isolated/final/02.tsx
 
 import * as React from 'react'
 
-function Greeting({initialName = ''}) {
+function Greeting({ initialName = '' }) {
   const [name, setName] = React.useState(
-    () => window.localStorage.getItem('name') ?? initialName,
+    window.localStorage.getItem('name') ?? initialName,
   )
 
   React.useEffect(() => {
     window.localStorage.setItem('name', name)
   })
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value)
   }
 

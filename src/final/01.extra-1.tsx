@@ -1,12 +1,16 @@
 // useState: greeting
 // 💯 accept an initialName
-// http://localhost:3000/isolated/final/01.extra-1.js
+// http://localhost:3000/isolated/final/01.extra-1.tsx
 
 import * as React from 'react'
 
-function Greeting({initialName = ''}) {
+type GreetingProps = {
+  initialName?: string
+}
+
+function Greeting({ initialName = '' }: GreetingProps) {
   const [name, setName] = React.useState(initialName)
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value)
   }
   return (

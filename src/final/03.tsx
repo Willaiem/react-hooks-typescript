@@ -1,9 +1,24 @@
 // Lifting state
-// http://localhost:3000/isolated/final/03.js
+// http://localhost:3000/isolated/final/03.tsx
 
 import * as React from 'react'
 
-function Name({name, onNameChange}) {
+type NameProps = {
+  name: string
+  onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+type FavoriteAnimalProps = {
+  animal: string
+  onAnimalChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+type DisplayProps = {
+  name: string
+  animal: string
+}
+
+function Name({ name, onNameChange }: NameProps) {
   return (
     <div>
       <label htmlFor="name">Name: </label>
@@ -12,7 +27,7 @@ function Name({name, onNameChange}) {
   )
 }
 
-function FavoriteAnimal({animal, onAnimalChange}) {
+function FavoriteAnimal({ animal, onAnimalChange }: FavoriteAnimalProps) {
   return (
     <div>
       <label htmlFor="animal">Favorite Animal: </label>
@@ -21,7 +36,7 @@ function FavoriteAnimal({animal, onAnimalChange}) {
   )
 }
 
-function Display({name, animal}) {
+function Display({ name, animal }: DisplayProps) {
   return <div>{`Hey ${name}, your favorite animal is: ${animal}!`}</div>
 }
 

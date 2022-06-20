@@ -1,13 +1,19 @@
 // useState: tic tac toe
 // 💯 preserve state in localStorage
-// http://localhost:3000/isolated/final/04.extra-1.js
+// http://localhost:3000/isolated/final/04.extra-1.tsx
 
 import * as React from 'react'
 
+type Square = 'X' | 'O'
+
+type Squares = Square[]
+
 function Board() {
-  const [squares, setSquares] = React.useState(
-    () =>
-      JSON.parse(window.localStorage.getItem('squares')) || Array(9).fill(null),
+  const [squares, setSquares] = React.useState<Squares>(
+    () => {
+      const squares = localStorage.getItem('squares')
+      return squares ? JSON.parse(squares) : Array(9).fill(null)
+    }
   )
 
   React.useEffect(() => {
@@ -18,7 +24,7 @@ function Board() {
   const winner = calculateWinner(squares)
   const status = calculateStatus(winner, squares, nextValue)
 
-  function selectSquare(square) {
+  function selectSquare(square: number) {
     if (winner || squares[square]) {
       return
     }
@@ -31,7 +37,7 @@ function Board() {
     setSquares(Array(9).fill(null))
   }
 
-  function renderSquare(i) {
+  function renderSquare(i: number) {
     return (
       <button className="square" onClick={() => selectSquare(i)}>
         {squares[i]}
@@ -74,19 +80,19 @@ function Game() {
   )
 }
 
-function calculateStatus(winner, squares, nextValue) {
+function calculateStatus(winner: Square | null, squares: Squares, nextValue: Square) {
   return winner
     ? `Winner: ${winner}`
     : squares.every(Boolean)
-    ? `Scratch: Cat's game`
-    : `Next player: ${nextValue}`
+      ? `Scratch: Cat's game`
+      : `Next player: ${nextValue}`
 }
 
-function calculateNextValue(squares) {
+function calculateNextValue(squares: Squares) {
   return squares.filter(Boolean).length % 2 === 0 ? 'X' : 'O'
 }
 
-function calculateWinner(squares) {
+function calculateWinner(squares: Squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -97,8 +103,7 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ]
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i]
+  for (const [a, b, c] of lines) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a]
     }

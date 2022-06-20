@@ -1,10 +1,10 @@
 // useEffect: persistent state
 // 💯 custom hook
-// http://localhost:3000/isolated/final/02.extra-3.js
+// http://localhost:3000/isolated/final/02.extra-3.tsx
 
 import * as React from 'react'
 
-function useLocalStorageState(key, defaultValue = '') {
+function useLocalStorageState(key: string, defaultValue: string = '') {
   const [state, setState] = React.useState(
     () => window.localStorage.getItem(key) ?? defaultValue,
   )
@@ -13,13 +13,17 @@ function useLocalStorageState(key, defaultValue = '') {
     window.localStorage.setItem(key, state)
   }, [key, state])
 
-  return [state, setState]
+  return [state, setState] as const
 }
 
-function Greeting({initialName = ''}) {
+type GreetingProps = {
+  initialName?: string
+}
+
+function Greeting({ initialName = '' }: GreetingProps) {
   const [name, setName] = useLocalStorageState('name', initialName)
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value)
   }
 
