@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {render, screen} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '../final/02'
 // import App from '../exercise/02'
@@ -9,8 +9,8 @@ afterEach(() => {
 })
 
 test('App works', async () => {
-  const {rerender} = render(<App />)
-  const inputTextbox = screen.getByRole('textbox', {name: /name/i})
+  const { rerender } = render(<App />)
+  const inputTextbox = screen.getByRole('textbox', { name: /name/i })
 
   await userEvent.clear(inputTextbox)
   await userEvent.type(inputTextbox, 'bob')
@@ -33,15 +33,15 @@ test('App works', async () => {
   window.localStorage.setItem('name', isSerialized ? '"jill"' : 'jill')
   rerender(<App key="new" />)
   const greetingText = screen.getByText(/hello/i).textContent
-  if (!greetingText.includes('jill')) {
+  if (greetingText && !greetingText.includes('jill')) {
     throw new Error(
       `🚨 the app is not initialized with the name that's in localStorage. Make sure useState is called with the value in localStorage.`,
     )
   }
-  if (greetingText.includes('"')) {
+  if (greetingText && greetingText.includes('"')) {
     throw new Error(
       `🚨 the value in localStorage is not getting deserialized properly. Make sure the value is deserialized when read from localStorage.`,
     )
   }
-  expect(screen.getByRole('textbox', {name: /name/i})).toHaveValue('jill')
+  expect(screen.getByRole('textbox', { name: /name/i })).toHaveValue('jill')
 })

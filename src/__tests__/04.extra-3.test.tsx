@@ -1,6 +1,6 @@
 import * as React from 'react'
-import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils'
-import {render, screen} from '@testing-library/react'
+import { alfredTip } from '@kentcdodds/react-workshop-app/test-utils'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '../final/04.extra-3'
 // import App from '../exercise/04'
@@ -51,19 +51,19 @@ test('can play a game of tic tac toe', async () => {
   alfredTip(
     () =>
       expect(
-        JSON.parse(window.localStorage.getItem('tic-tac-toe:history')),
+        JSON.parse(window.localStorage.getItem('tic-tac-toe:history') ?? ''),
       ).toEqual(
         // prettier-ignore
         [
           [null, null, null,
-          null, null, null,
-          null, null, null],
-          ['X',  null, null,
-          null, null, null,
-          null, null, null],
-          ['X',  null, null,
-          null, 'O',  null,
-          null, null, null]
+            null, null, null,
+            null, null, null],
+          ['X', null, null,
+            null, null, null,
+            null, null, null],
+          ['X', null, null,
+            null, 'O', null,
+            null, null, null]
         ],
       ),
     'Make sure that the localStorage item is updated with the JSON.stringified squares array',
@@ -82,13 +82,13 @@ test('can play a game of tic tac toe', async () => {
   alfredTip(
     () =>
       expect(
-        JSON.parse(window.localStorage.getItem('tic-tac-toe:history')),
+        JSON.parse(window.localStorage.getItem('tic-tac-toe:history') ?? ''),
       ).toEqual(
         // prettier-ignore
         [
           [null, null, null,
-          null, null, null,
-          null, null, null]
+            null, null, null,
+            null, null, null]
         ],
       ),
     'Make sure that the localStorage item is updated with the JSON.stringified squares array',
